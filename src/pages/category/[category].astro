@@ -1,0 +1,178 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CSVProgramCard from '../../components/CSVProgramCard.astro';
+import { getAllCategories, getProgramsByCategory, createSlug } from '../../utils/csvParser';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const categories = getAllCategories();
+  
+  return categories.map(category => ({
+    params: { category: createSlug(category) },
+    props: { 
+      categoryName: category,
+      programs: getProgramsByCategory(category)
+    }
+  }));
+};
+
+const { categoryName, programs } = Astro.props;
+const categorySlug = createSlug(categoryName);
+
+// SEO optimized content
+const seoContent = {
+  title: `${categoryName} Affiliate Programs - Best ${categoryName} Programs Database`,
+  description: `Discover the best ${categoryName.toLowerCase()} affiliate programs with high commissions. Compare ${programs.length}+ ${categoryName.toLowerCase()} programs and start earning today.`,
+  h1: `Best ${categoryName} Affiliate Programs`,
+  whatAre: `What are ${categoryName} Affiliate Programs?`,
+  howToMake: `How to Make Money with ${categoryName} Affiliate Programs`,
+  howToPromote: `How to Promote ${categoryName} Affiliate Programs`,
+  bestPrograms: `Best ${categoryName} Affiliate Programs`
+};
+---
+
+<Layout title={seoContent.title}>
+  <main>
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-blue-900 to-blue-600 py-16">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+          {seoContent.h1}
+        </h1>
+        <p class="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+          {seoContent.description}
+        </p>
+        <div class="bg-white/10 rounded-lg p-4 inline-block">
+          <p class="text-white font-semibold">
+            <span class="text-yellow-300 text-2xl">{programs.length}</span> {categoryName} Programs Available
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 py-16">
+      <!-- Programs Grid -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">{seoContent.bestPrograms}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {programs.map((program, index) => (
+            <div style={`animation-delay: ${index * 0.1}s`}>
+              <CSVProgramCard program={program} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- SEO Content -->
+      <div class="prose prose-lg max-w-none">
+        <h2>{seoContent.whatAre}</h2>
+        <p>
+          {categoryName} affiliate programs are partnerships between {categoryName.toLowerCase()} companies and marketers 
+          where you earn commissions by promoting {categoryName.toLowerCase()} products or services. These programs 
+          allow you to monetize your audience by recommending quality {categoryName.toLowerCase()} solutions that 
+          provide real value to your followers.
+        </p>
+        <p>
+          Our database features {programs.length} verified {categoryName.toLowerCase()} affiliate programs, ranging from 
+          emerging startups to established industry leaders. Each program has been carefully selected based on 
+          commission rates, cookie duration, conversion rates, and overall reputation in the {categoryName.toLowerCase()} space.
+        </p>
+
+        <h2>{seoContent.howToMake}</h2>
+        <p>
+          Making money with {categoryName.toLowerCase()} affiliate programs requires a strategic approach:
+        </p>
+        <ul>
+          <li><strong>Choose the right programs:</strong> Select {categoryName.toLowerCase()} programs that align with your audience's needs and interests</li>
+          <li><strong>Create valuable content:</strong> Develop reviews, tutorials, and comparisons that help your audience make informed decisions</li>
+          <li><strong>Build trust:</strong> Only promote {categoryName.toLowerCase()} products you genuinely believe in and have tested yourself</li>
+          <li><strong>Optimize for conversions:</strong> Use compelling calls-to-action and track your performance to improve results</li>
+          <li><strong>Diversify your portfolio:</strong> Promote multiple {categoryName.toLowerCase()} programs to maximize earning potential</li>
+        </ul>
+
+        <h2>{seoContent.howToPromote}</h2>
+        <p>
+          Effective promotion of {categoryName.toLowerCase()} affiliate programs involves multiple strategies:
+        </p>
+        <ul>
+          <li><strong>Content Marketing:</strong> Create blog posts, videos, and guides about {categoryName.toLowerCase()} topics</li>
+          <li><strong>Email Marketing:</strong> Build an email list and share {categoryName.toLowerCase()} recommendations with subscribers</li>
+          <li><strong>Social Media:</strong> Share {categoryName.toLowerCase()} content on platforms where your audience is most active</li>
+          <li><strong>SEO Optimization:</strong> Target {categoryName.toLowerCase()}-related keywords to attract organic traffic</li>
+          <li><strong>Paid Advertising:</strong> Use targeted ads to reach people interested in {categoryName.toLowerCase()} solutions</li>
+          <li><strong>Webinars and Demos:</strong> Host educational sessions showcasing {categoryName.toLowerCase()} tools and services</li>
+        </ul>
+
+        <h2>Why Choose {categoryName} Affiliate Marketing?</h2>
+        <p>
+          The {categoryName.toLowerCase()} niche offers excellent opportunities for affiliate marketers because:
+        </p>
+        <ul>
+          <li>High demand for quality {categoryName.toLowerCase()} solutions</li>
+          <li>Growing market with new opportunities emerging regularly</li>
+          <li>Potential for recurring commissions with subscription-based {categoryName.toLowerCase()} services</li>
+          <li>Wide range of price points and commission structures</li>
+          <li>Evergreen content opportunities in the {categoryName.toLowerCase()} space</li>
+        </ul>
+
+        <h2>Getting Started with {categoryName} Affiliate Programs</h2>
+        <p>
+          To begin your journey with {categoryName.toLowerCase()} affiliate marketing:
+        </p>
+        <ol>
+          <li>Research and select the best {categoryName.toLowerCase()} programs from our database above</li>
+          <li>Apply to programs that match your audience and content strategy</li>
+          <li>Create a content calendar focused on {categoryName.toLowerCase()} topics</li>
+          <li>Set up proper tracking to monitor your performance</li>
+          <li>Continuously test and optimize your promotional strategies</li>
+        </ol>
+
+        <p>
+          Start exploring the {programs.length} {categoryName.toLowerCase()} affiliate programs above and find the 
+          perfect opportunities to monetize your audience while providing them with valuable {categoryName.toLowerCase()} solutions.
+        </p>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="bg-gradient-to-br from-blue-900 to-indigo-900 rounded-2xl p-8 md:p-12 text-white text-center mt-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Start Earning with {categoryName} Programs?</h2>
+        <p class="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          Join thousands of successful affiliate marketers who are earning with {categoryName.toLowerCase()} programs. 
+          Browse our complete database of 9,500+ affiliate programs across all niches.
+        </p>
+        <a
+          href="/database"
+          class="inline-flex items-center px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 to-red-600 hover:from-pink-600 hover:to-red-700 text-white font-medium text-lg transition-all duration-300 hover:scale-105 shadow-lg"
+        >
+          Access Full Database
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .prose {
+    @apply text-gray-700;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-bold text-gray-900 mt-12 mb-6;
+  }
+
+  .prose p {
+    @apply mb-6 leading-relaxed;
+  }
+
+  .prose ul, .prose ol {
+    @apply mb-6;
+  }
+
+  .prose li {
+    @apply mb-2;
+  }
+</style>
+</Layout>

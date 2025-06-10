@@ -1,0 +1,397 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SearchFilter from '../components/SearchFilter.astro';
+import ProgramCard from '../components/ProgramCard.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import { programs } from '../data/programs';
+import { categories } from '../data/categories';
+import { getAllCategories, getProgramsByCategory, createSlug } from '../utils/csvParser';
+
+// Get CSV categories for the homepage, excluding Adult
+const csvCategories = getAllCategories()
+  .filter(category => category.toLowerCase() !== 'adult')
+  .slice(0, 6)
+  .map(category => ({
+    name: category,
+    slug: createSlug(category),
+    description: `Discover the best ${category.toLowerCase()} affiliate programs with competitive commissions and reliable tracking.`,
+    programCount: getProgramsByCategory(category).length
+  }));
+
+// Popular categories to display on homepage
+const popularCategories = [
+  'Fashion',
+  'Shoes', 
+  'Electronics',
+  'Beauty',
+  'Skin Care',
+  'Home Decor',
+  'Health and Wellness',
+  'Supplements',
+  'Food',
+  'CBD',
+  'Travel',
+  'Ecommerce',
+  'Automotive',
+  'Jewelry',
+  'Financial',
+  'Cat',
+  'Dog',
+  'Pet',
+  'Hotel',
+  'Baby Products'
+];
+---
+
+<Layout title="Affiliate Program Database - 9,500+ Programs Across All Niches">
+  <main>
+    <!-- Hero Section -->
+    <div class="relative h-[280px] mb-16">
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-900 to-blue-600 opacity-90"></div>
+      <img
+        src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&q=80"
+        alt="Hero background"
+        class="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+      <div class="relative h-full max-w-7xl mx-auto px-4 flex flex-col items-center justify-center text-center">
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in" style="text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+          <span class="text-yellow-300">9,500+</span> Affiliate Programs Database
+        </h1>
+        <p class="text-xl text-white/90 mb-8 max-w-2xl animate-fade-in" style="animation-delay: 0.2s;">
+          The most comprehensive affiliate program database across all niches to help you find the perfect programs for your audience
+        </p>
+        <div class="w-full max-w-2xl animate-fade-in" style="animation-delay: 0.4s;">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Search affiliate programs..."
+              class="w-full px-8 py-4 text-lg rounded-full shadow-xl focus:ring-4 focus:ring-blue-400/30 focus:outline-none transition-all duration-300"
+            />
+            <button class="absolute right-16 top-1/2 -translate-y-1/2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-2 rounded-full transition-colors duration-300 flex items-center gap-2 text-sm" id="filterToggle">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+              </svg>
+              Filter
+            </button>
+            <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full transition-colors duration-300 text-sm">
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 pb-16">
+      <!-- Hidden Filters -->
+      <div class="hidden mb-12 transition-all duration-300" id="filterSection">
+        <SearchFilter />
+      </div>
+
+      <!-- Categories Section -->
+      <h2 class="text-3xl font-bold text-gray-900 mb-8">Browse by Category</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        {csvCategories.map((category, index) => (
+          <div style={`animation-delay: ${index * 0.1}s`}>
+            <CategoryCard category={category} />
+          </div>
+        ))}
+      </div>
+
+      <!-- Popular Categories Section -->
+      <div class="mb-12">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Popular Categories</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
+          {popularCategories.map((category, index) => (
+            <a
+              href={`/category/${createSlug(category)}`}
+              class="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 p-4 text-center border border-gray-200 hover:border-blue-300"
+              style={`animation-delay: ${index * 0.05}s`}
+            >
+              <div class="text-gray-700 group-hover:text-blue-600 font-medium text-sm transition-colors">
+                {category}
+              </div>
+            </a>
+          ))}
+        </div>
+        <div class="text-center">
+          <a
+            href="/categories"
+            class="inline-flex items-center px-6 py-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 font-medium transition-all duration-300"
+          >
+            Check All Categories
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Premium Database Promotion -->
+      <div class="bg-gradient-to-br from-indigo-900 to-purple-900 rounded-2xl p-8 md:p-12 mb-24 text-white text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Get Access to Our Complete Affiliate Program Database</h2>
+        <p class="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          Unlock our premium database featuring over 9,500 affiliate programs across 50+ niches. Save time researching and find the perfect programs for your audience.
+        </p>
+        <a
+          href="/database"
+          class="inline-flex items-center px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 to-red-600 hover:from-pink-600 hover:to-red-700 text-white font-medium text-lg transition-all duration-300 hover:scale-105 shadow-lg"
+        >
+          Access Full Database
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Enhanced SEO Content Section -->
+      <div class="mb-24">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Master Affiliate Marketing
+          </h2>
+          <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-6"></div>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Everything you need to know to succeed in affiliate marketing and maximize your earnings
+          </p>
+        </div>
+
+        <!-- Content Cards Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+          <!-- What is an Affiliate Program Database? -->
+          <div class="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 opacity-50"></div>
+            <div class="relative p-8">
+              <div class="flex items-center mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 1.79 4 4 4h8c2.21 0 4-1.79 4-4V7c0-2.21-1.79-4-4-4H8c-2.21 0-4 1.79-4 4z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h8M8 14h4" />
+                  </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                  What is an Affiliate Program Database?
+                </h3>
+              </div>
+              <p class="text-gray-700 leading-relaxed mb-6">
+                An affiliate program database is a comprehensive collection of affiliate programs organized by category, commission rates, and other important metrics. Our database includes detailed information on 9,500+ affiliate programs, making it easy for affiliate marketers to find the most suitable programs for their audience and niche.
+              </p>
+              <div class="flex items-center text-blue-600 font-medium group-hover:text-blue-700">
+                <span>Learn more</span>
+                <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Why Use Database -->
+          <div class="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-purple-50 to-pink-50 opacity-50"></div>
+            <div class="relative p-8">
+              <div class="flex items-center mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mr-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 group-hover:text-purple-600 transition-colors">
+                  Why Use an Affiliate Program Database?
+                </h3>
+              </div>
+              <p class="text-gray-700 leading-relaxed mb-6">
+                Using a quality affiliate program database saves you countless hours of research. Instead of manually searching for programs across different networks and websites, you can quickly filter through thousands of options based on your specific requirements. This efficiency allows you to focus more on creating valuable content and less on program research.
+              </p>
+              <div class="flex items-center text-purple-600 font-medium group-hover:text-purple-700">
+                <span>Discover benefits</span>
+                <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Finding Best Programs Section -->
+        <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 md:p-12 text-white mb-16">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 class="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                Find the Perfect Programs for Your Niche
+              </h3>
+              <p class="text-gray-300 text-lg leading-relaxed mb-8">
+                Finding the best affiliate programs for your niche requires understanding your audience's needs and preferences. With our database, you can make data-driven decisions that maximize your earning potential.
+              </p>
+            </div>
+            <div class="space-y-4">
+              <div class="flex items-start space-x-4 group">
+                <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-green-400 to-green-500 rounded-full flex items-center justify-center">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-white group-hover:text-green-400 transition-colors">Filter by Category</h4>
+                  <p class="text-gray-400 text-sm">Find niche-specific opportunities</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-4 group">
+                <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full flex items-center justify-center">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-white group-hover:text-blue-400 transition-colors">Compare Commission Rates</h4>
+                  <p class="text-gray-400 text-sm">Maximize your earning potential</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-4 group">
+                <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full flex items-center justify-center">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-white group-hover:text-purple-400 transition-colors">Check Cookie Duration</h4>
+                  <p class="text-gray-400 text-sm">Understand attribution periods</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-4 group">
+                <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-pink-400 to-pink-500 rounded-full flex items-center justify-center">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-white group-hover:text-pink-400 transition-colors">Evaluate Program Reputation</h4>
+                  <p class="text-gray-400 text-sm">Choose reliable, well-paying programs</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success Strategies Section -->
+        <div class="relative">
+          <div class="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-3xl"></div>
+          <div class="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/20">
+            <div class="text-center mb-12">
+              <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                🚀 Your Path to Affiliate Marketing Success
+              </h3>
+              <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Follow these proven strategies to build a profitable affiliate marketing business
+              </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <!-- Strategy 1 -->
+              <div class="group text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="text-2xl">🎯</span>
+                </div>
+                <h4 class="text-xl font-bold text-gray-900 mb-4">Choose the Right Programs</h4>
+                <p class="text-gray-600">Select programs that align with your audience's interests and buying behavior</p>
+              </div>
+
+              <!-- Strategy 2 -->
+              <div class="group text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="text-2xl">📝</span>
+                </div>
+                <h4 class="text-xl font-bold text-gray-900 mb-4">Create Valuable Content</h4>
+                <p class="text-gray-600">Develop reviews, tutorials, and comparisons that naturally incorporate affiliate recommendations</p>
+              </div>
+
+              <!-- Strategy 3 -->
+              <div class="group text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="text-2xl">🤝</span>
+                </div>
+                <h4 class="text-xl font-bold text-gray-900 mb-4">Build Trust</h4>
+                <p class="text-gray-600">Only promote products you believe in and have tested yourself</p>
+              </div>
+
+              <!-- Strategy 4 -->
+              <div class="group text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="text-2xl">📊</span>
+                </div>
+                <h4 class="text-xl font-bold text-gray-900 mb-4">Track Performance</h4>
+                <p class="text-gray-600">Use conversion data to optimize your strategy and improve results</p>
+              </div>
+
+              <!-- Strategy 5 -->
+              <div class="group text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="text-2xl">🌐</span>
+                </div>
+                <h4 class="text-xl font-bold text-gray-900 mb-4">Diversify Portfolio</h4>
+                <p class="text-gray-600">Promote multiple programs to create multiple income streams</p>
+              </div>
+
+              <!-- Strategy 6 -->
+              <div class="group text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="text-2xl">🔄</span>
+                </div>
+                <h4 class="text-xl font-bold text-gray-900 mb-4">Stay Updated</h4>
+                <p class="text-gray-600">Keep up with new programs and commission structure changes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured Programs Section -->
+      <h2 class="text-3xl font-bold text-gray-900 mb-8">Featured High-Ticket Affiliate Programs</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+        {programs.slice(0, 4).map((program, index) => (
+          <div style={`animation-delay: ${index * 0.1}s`}>
+            <ProgramCard program={program} />
+          </div>
+        ))}
+      </div>
+
+      <!-- Final CTA -->
+      <div class="bg-gradient-to-br from-blue-900 to-indigo-900 rounded-2xl p-8 md:p-12 text-white text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Elevate Your Affiliate Marketing?</h2>
+        <p class="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          Get instant access to our curated database of 9,500+ affiliate programs and find the perfect partners for your business today.
+        </p>
+        <a
+          href="/database"
+          class="inline-flex items-center px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 to-red-600 hover:from-pink-600 hover:to-red-700 text-white font-medium text-lg transition-all duration-300 hover:scale-105 shadow-lg"
+        >
+          Access Complete Database
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  const filterToggle = document.getElementById('filterToggle');
+  const filterSection = document.getElementById('filterSection');
+
+  filterToggle?.addEventListener('click', () => {
+    filterSection?.classList.toggle('hidden');
+  });
+</script>
+
+<style>
+  .hover-lift {
+    transition: transform 0.2s ease-out;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+</style>
+</Layout>

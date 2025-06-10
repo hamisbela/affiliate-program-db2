@@ -1,0 +1,132 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CSVProgramCard from '../../components/CSVProgramCard.astro';
+import { parseCSV } from '../../utils/csvParser';
+
+// Filter programs for recurring commissions (assuming we can detect this from commission text)
+const allPrograms = parseCSV();
+const recurringPrograms = allPrograms.filter(program => 
+  program.commission.toLowerCase().includes('%') || 
+  program.commission.toLowerCase().includes('recurring') ||
+  program.commission.toLowerCase().includes('monthly') ||
+  program.description.toLowerCase().includes('recurring') ||
+  program.description.toLowerCase().includes('subscription')
+);
+---
+
+<Layout title="Recurring Affiliate Programs - Best Recurring Commission Programs">
+  <main>
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-green-900 to-green-600 py-16">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+          Best Recurring Affiliate Programs
+        </h1>
+        <p class="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+          Discover affiliate programs that pay recurring commissions. Build passive income streams with subscription-based programs that pay you month after month.
+        </p>
+        <div class="bg-white/10 rounded-lg p-4 inline-block">
+          <p class="text-white font-semibold">
+            <span class="text-yellow-300 text-2xl">{recurringPrograms.length}</span> Recurring Programs Available
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 py-16">
+      <!-- Programs Grid -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">Top Recurring Commission Programs</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {recurringPrograms.map((program, index) => (
+            <div style={`animation-delay: ${index * 0.1}s`}>
+              <CSVProgramCard program={program} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- SEO Content -->
+      <div class="prose prose-lg max-w-none">
+        <h2>What are Recurring Affiliate Programs?</h2>
+        <p>
+          Recurring affiliate programs are partnerships where you earn ongoing commissions for as long as your referred customers remain subscribed to a service. Unlike one-time commissions, recurring programs provide you with passive income that compounds over time.
+        </p>
+
+        <h2>Benefits of Recurring Affiliate Programs</h2>
+        <ul>
+          <li><strong>Passive Income:</strong> Earn money month after month from a single referral</li>
+          <li><strong>Compounding Growth:</strong> Your income grows as you add more subscribers</li>
+          <li><strong>Predictable Revenue:</strong> Build a reliable income stream you can count on</li>
+          <li><strong>Higher Lifetime Value:</strong> Total earnings per customer are typically much higher</li>
+          <li><strong>Less Pressure:</strong> Focus on quality referrals rather than quantity</li>
+        </ul>
+
+        <h2>How to Succeed with Recurring Affiliate Programs</h2>
+        <p>
+          Success with recurring affiliate programs requires a different approach than one-time programs:
+        </p>
+        <ul>
+          <li>Focus on programs with low churn rates and high customer satisfaction</li>
+          <li>Create content that helps users get the most value from the products</li>
+          <li>Build long-term relationships with your audience</li>
+          <li>Choose programs that align with your audience's ongoing needs</li>
+          <li>Monitor your referrals and help reduce churn when possible</li>
+        </ul>
+
+        <h2>Best Niches for Recurring Affiliate Programs</h2>
+        <p>
+          Some industries are particularly well-suited for recurring affiliate programs:
+        </p>
+        <ul>
+          <li>Software as a Service (SaaS) platforms</li>
+          <li>Online education and course platforms</li>
+          <li>Email marketing and automation tools</li>
+          <li>Web hosting and domain services</li>
+          <li>Subscription box services</li>
+          <li>Streaming and content platforms</li>
+        </ul>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="bg-gradient-to-br from-green-900 to-green-700 rounded-2xl p-8 md:p-12 text-white text-center mt-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Build Recurring Income?</h2>
+        <p class="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          Start building your passive income stream with the best recurring affiliate programs. 
+          Browse our complete database of 9,500+ programs to find the perfect recurring opportunities.
+        </p>
+        <a
+          href="/database"
+          class="inline-flex items-center px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 to-red-600 hover:from-pink-600 hover:to-red-700 text-white font-medium text-lg transition-all duration-300 hover:scale-105 shadow-lg"
+        >
+          Access Full Database
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .prose {
+    @apply text-gray-700;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-bold text-gray-900 mt-12 mb-6;
+  }
+
+  .prose p {
+    @apply mb-6 leading-relaxed;
+  }
+
+  .prose ul, .prose ol {
+    @apply mb-6;
+  }
+
+  .prose li {
+    @apply mb-2;
+  }
+</style>

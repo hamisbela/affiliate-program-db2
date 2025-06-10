@@ -1,0 +1,70 @@
+---
+const categories = ['All', 'Marketing Software', 'Course Platform', 'E-commerce', 'CRM'];
+const platforms = ['All', 'In-house', 'Impact', 'ShareASale', 'CJ Affiliate'];
+---
+
+<div class="bg-white rounded-xl shadow-lg p-8 mb-12 animate-scale-in">
+  <h2 class="text-xl font-semibold mb-6 bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+    Filter Programs
+  </h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="space-y-2">
+      <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+      <div class="relative">
+        <select
+          id="category"
+          class="w-full rounded-lg border-gray-200 bg-gray-50 py-3 pl-4 pr-10 text-gray-900 focus:border-blue-500 focus:ring-blue-500 hover:border-blue-400 transition-colors"
+        >
+          {categories.map(category => (
+            <option value={category}>{category}</option>
+          ))}
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    
+    <div class="space-y-2">
+      <label for="commission" class="block text-sm font-medium text-gray-700">Min Commission</label>
+      <div class="relative">
+        <select
+          id="commission"
+          class="w-full rounded-lg border-gray-200 bg-gray-50 py-3 pl-4 pr-10 text-gray-900 focus:border-blue-500 focus:ring-blue-500 hover:border-blue-400 transition-colors"
+        >
+          <option value="all">All</option>
+          <option value="10">10%+</option>
+          <option value="20">20%+</option>
+          <option value="30">30%+</option>
+          <option value="40">40%+</option>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    
+    <div class="space-y-2">
+      <label for="platform" class="block text-sm font-medium text-gray-700">Platform</label>
+      <div class="relative">
+        <select
+          id="platform"
+          class="w-full rounded-lg border-gray-200 bg-gray-50 py-3 pl-4 pr-10 text-gray-900 focus:border-blue-500 focus:ring-blue-500 hover:border-blue-400 transition-colors"
+        >
+          {platforms.map(platform => (
+            <option value={platform}>{platform}</option>
+          ))}
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

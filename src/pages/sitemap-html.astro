@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getAllCategories, createSlug } from '../utils/csvParser';
+
+const categories = getAllCategories();
+---
+
+<Layout title="HTML Sitemap - All Pages on AffiliateProgram Database">
+  <main class="max-w-7xl mx-auto px-4 py-16">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-6">Site Map</h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Browse all pages on our affiliate program database. Find affiliate programs by category, commission type, or explore our resources.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+      <!-- Main Pages -->
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Main Pages</h2>
+        <ul class="space-y-3">
+          <li><a href="/" class="text-blue-600 hover:text-blue-800 hover:underline">Home</a></li>
+          <li><a href="/about" class="text-blue-600 hover:text-blue-800 hover:underline">About</a></li>
+          <li><a href="/contact" class="text-blue-600 hover:text-blue-800 hover:underline">Contact</a></li>
+          <li><a href="/database" class="text-blue-600 hover:text-blue-800 hover:underline">Premium Database</a></li>
+          <li><a href="/add-listing" class="text-blue-600 hover:text-blue-800 hover:underline">Add Listing</a></li>
+          <li><a href="/categories" class="text-blue-600 hover:text-blue-800 hover:underline">All Categories</a></li>
+        </ul>
+      </div>
+
+      <!-- Commission Types -->
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Commission Types</h2>
+        <ul class="space-y-3">
+          <li><a href="/type/recurring" class="text-blue-600 hover:text-blue-800 hover:underline">Recurring Affiliate Programs</a></li>
+          <li><a href="/type/one-time" class="text-blue-600 hover:text-blue-800 hover:underline">One-Time Affiliate Programs</a></li>
+        </ul>
+      </div>
+
+      <!-- Categories -->
+      <div class="lg:col-span-1">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Categories</h2>
+        <div class="max-h-96 overflow-y-auto">
+          <ul class="space-y-2">
+            {categories.map(category => (
+              <li>
+                <a 
+                  href={`/category/${createSlug(category)}`} 
+                  class="text-blue-600 hover:text-blue-800 hover:underline text-sm"
+                >
+                  {category} Affiliate Programs
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="prose prose-lg max-w-none mt-16">
+      <h2>About This Sitemap</h2>
+      <p>
+        This HTML sitemap provides easy navigation to all pages on our affiliate program database. 
+        We organize affiliate programs by categories and commission types to help you find the perfect 
+        opportunities for your audience. Our database includes over 9,500 affiliate programs across 
+        hundreds of different niches and industries.
+      </p>
+
+      <h2>How to Use This Sitemap</h2>
+      <p>
+        Use this sitemap to quickly navigate to specific sections of our website:
+      </p>
+      <ul>
+        <li><strong>Main Pages:</strong> Core website pages with general information</li>
+        <li><strong>Commission Types:</strong> Browse programs by how they pay (recurring vs. one-time)</li>
+        <li><strong>Categories:</strong> Find programs by industry or niche</li>
+      </ul>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .prose {
+    @apply text-gray-700;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-bold text-gray-900 mt-8 mb-4;
+  }
+
+  .prose p {
+    @apply mb-4 leading-relaxed;
+  }
+
+  .prose ul {
+    @apply list-disc pl-6 mb-4;
+  }
+
+  .prose li {
+    @apply mb-2;
+  }
+</style>
+</Layout>

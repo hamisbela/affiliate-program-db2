@@ -1,0 +1,56 @@
+---
+import type { AffiliateProgram } from '../data/programs';
+
+interface Props {
+  program: AffiliateProgram;
+}
+
+const { program } = Astro.props;
+---
+
+<div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 hover-lift animate-fade-in relative">
+  {program.sponsored && (
+    <div class="absolute top-4 right-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white text-xs font-medium px-2.5 py-1 rounded-full">
+      Sponsored
+    </div>
+  )}
+  <div class="flex items-center mb-6">
+    <div class="w-16 h-16 bg-gray-50 rounded-lg p-2 mr-4 flex items-center justify-center">
+      <img src={program.logo} alt={program.name} class="w-12 h-12 object-contain" />
+    </div>
+    <div>
+      <h3 class="text-xl font-semibold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+        {program.name}
+      </h3>
+      <p class="text-gray-600">{program.description}</p>
+    </div>
+  </div>
+  
+  <div class="grid grid-cols-2 gap-6 mb-6">
+    <div class="bg-gray-50 rounded-lg p-3">
+      <p class="text-sm text-gray-500 mb-1">Category</p>
+      <p class="font-medium text-gray-900">{program.category}</p>
+    </div>
+    <div class="bg-gray-50 rounded-lg p-3">
+      <p class="text-sm text-gray-500 mb-1">Commission</p>
+      <p class="font-medium text-blue-600">{program.commission}</p>
+    </div>
+    <div class="bg-gray-50 rounded-lg p-3">
+      <p class="text-sm text-gray-500 mb-1">Cookie Duration</p>
+      <p class="font-medium text-gray-900">{program.cookieDuration}</p>
+    </div>
+    <div class="bg-gray-50 rounded-lg p-3">
+      <p class="text-sm text-gray-500 mb-1">Commission Type</p>
+      <p class="font-medium text-gray-900">{program.commissionType}</p>
+    </div>
+  </div>
+  
+  <a
+    href={program.signupLink}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="block w-full text-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-[1.02]"
+  >
+    Join Program →
+  </a>
+</div>

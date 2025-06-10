@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getAllCategories, createSlug, getProgramsByCategory } from '../utils/csvParser';
+
+const categories = getAllCategories();
+const categoryData = categories.map(category => ({
+  name: category,
+  slug: createSlug(category),
+  programCount: getProgramsByCategory(category).length
+}));
+---
+
+<Layout title="All Affiliate Program Categories - Browse by Niche">
+  <main class="max-w-7xl mx-auto px-4 py-16">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        Browse Affiliate Programs by Category
+      </h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Explore our comprehensive database of affiliate programs organized by industry and niche. 
+        Find the perfect programs for your audience across {categories.length} different categories.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {categoryData.map((category, index) => (
+        <a
+          href={`/category/${category.slug}`}
+          class="block bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 hover-lift group"
+          style={`animation-delay: ${index * 0.1}s`}
+        >
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+              {category.name}
+            </h3>
+            <div class="bg-blue-100 rounded-full p-2 group-hover:bg-blue-600 transition-colors">
+              <svg
+                class="w-6 h-6 text-blue-600 group-hover:text-white transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+          <div class="text-blue-600 font-medium">
+            {category.programCount} affiliate programs →
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- SEO Content -->
+    <div class="prose prose-lg max-w-none mt-16">
+      <h2>Why Browse Affiliate Programs by Category?</h2>
+      <p>
+        Browsing affiliate programs by category helps you find the most relevant opportunities for your audience. 
+        Each category contains carefully curated programs with detailed information about commission rates, 
+        cookie duration, and program requirements.
+      </p>
+
+      <h2>Popular Affiliate Program Categories</h2>
+      <p>
+        Our database covers a wide range of industries and niches, ensuring you can find affiliate programs 
+        that match your content and audience interests. From high-tech software solutions to physical products, 
+        we have programs for every type of affiliate marketer.
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .prose {
+    @apply text-gray-700;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-bold text-gray-900 mt-12 mb-6;
+  }
+
+  .prose p {
+    @apply mb-6 leading-relaxed;
+  }
+
+  .hover-lift {
+    transition: transform 0.2s ease-out;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+</style>
+</Layout>

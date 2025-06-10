@@ -1,0 +1,147 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CSVProgramCard from '../../components/CSVProgramCard.astro';
+import { parseCSV } from '../../utils/csvParser';
+
+// Filter programs for one-time commissions
+const allPrograms = parseCSV();
+const oneTimePrograms = allPrograms.filter(program => 
+  program.commission.toLowerCase().includes('$') || 
+  program.commission.toLowerCase().includes('one-time') ||
+  program.commission.toLowerCase().includes('per sale') ||
+  (!program.commission.toLowerCase().includes('recurring') && 
+   !program.commission.toLowerCase().includes('monthly') &&
+   !program.description.toLowerCase().includes('recurring'))
+);
+---
+
+<Layout title="One-Time Affiliate Programs - Best High-Paying One-Time Commissions">
+  <main>
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-purple-900 to-purple-600 py-16">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+          Best One-Time Affiliate Programs
+        </h1>
+        <p class="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+          Find high-paying affiliate programs with one-time commissions. Perfect for driving immediate revenue with products and services that pay generous upfront commissions.
+        </p>
+        <div class="bg-white/10 rounded-lg p-4 inline-block">
+          <p class="text-white font-semibold">
+            <span class="text-yellow-300 text-2xl">{oneTimePrograms.length}</span> One-Time Programs Available
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 py-16">
+      <!-- Programs Grid -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">Top One-Time Commission Programs</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {oneTimePrograms.map((program, index) => (
+            <div style={`animation-delay: ${index * 0.1}s`}>
+              <CSVProgramCard program={program} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- SEO Content -->
+      <div class="prose prose-lg max-w-none">
+        <h2>What are One-Time Affiliate Programs?</h2>
+        <p>
+          One-time affiliate programs pay you a single commission for each successful referral or sale. These programs are ideal for affiliates who want immediate payouts and prefer to focus on driving sales rather than managing ongoing relationships.
+        </p>
+
+        <h2>Benefits of One-Time Affiliate Programs</h2>
+        <ul>
+          <li><strong>Immediate Payouts:</strong> Get paid quickly after a successful referral</li>
+          <li><strong>Higher Upfront Commissions:</strong> Often offer larger initial payouts</li>
+          <li><strong>Simpler Tracking:</strong> No need to monitor long-term customer relationships</li>
+          <li><strong>Volume Focused:</strong> Scale by increasing the number of referrals</li>
+          <li><strong>Diverse Options:</strong> Available across virtually every industry and price point</li>
+        </ul>
+
+        <h2>Best Strategies for One-Time Affiliate Programs</h2>
+        <p>
+          Maximizing earnings from one-time affiliate programs requires focused strategies:
+        </p>
+        <ul>
+          <li>Target high-intent keywords and audiences ready to buy</li>
+          <li>Create compelling product reviews and comparisons</li>
+          <li>Use limited-time offers and urgency to drive conversions</li>
+          <li>Focus on programs with strong conversion rates</li>
+          <li>Build email lists to promote multiple relevant programs</li>
+          <li>Diversify across multiple programs to spread risk</li>
+        </ul>
+
+        <h2>Top Categories for One-Time Affiliate Programs</h2>
+        <p>
+          Some industries offer particularly attractive one-time affiliate opportunities:
+        </p>
+        <ul>
+          <li>High-ticket courses and educational products</li>
+          <li>Software licenses and one-time purchases</li>
+          <li>Physical products and e-commerce</li>
+          <li>Financial services and credit products</li>
+          <li>Travel and booking services</li>
+          <li>Professional services and consulting</li>
+        </ul>
+
+        <h2>Maximizing One-Time Commission Programs</h2>
+        <p>
+          To succeed with one-time programs, focus on:
+        </p>
+        <ul>
+          <li>Choosing programs with generous commission rates</li>
+          <li>Understanding your audience's buying patterns</li>
+          <li>Creating content that drives immediate action</li>
+          <li>Testing different promotional strategies</li>
+          <li>Building relationships with program managers</li>
+          <li>Continuously optimizing for higher conversion rates</li>
+        </ul>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="bg-gradient-to-br from-purple-900 to-purple-700 rounded-2xl p-8 md:p-12 text-white text-center mt-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Earn Big Commissions?</h2>
+        <p class="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          Start earning with high-paying one-time affiliate programs. 
+          Browse our complete database to find the perfect programs for your audience.
+        </p>
+        <a
+          href="/database"
+          class="inline-flex items-center px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 to-red-600 hover:from-pink-600 hover:to-red-700 text-white font-medium text-lg transition-all duration-300 hover:scale-105 shadow-lg"
+        >
+          Access Full Database
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .prose {
+    @apply text-gray-700;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-bold text-gray-900 mt-12 mb-6;
+  }
+
+  .prose p {
+    @apply mb-6 leading-relaxed;
+  }
+
+  .prose ul, .prose ol {
+    @apply mb-6;
+  }
+
+  .prose li {
+    @apply mb-2;
+  }
+</style>
